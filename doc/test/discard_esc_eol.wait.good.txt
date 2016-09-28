@@ -1,0 +1,12 @@
+`==----== original: ==----==´
+`generate fake data...´
+`generated.´
+`feed it to cat (1)...´
+`input came out unchanged.´
+`delete spam:´
+`done, using best herbal mail enhancements.´
+`==----== compact: ==----==´
+`generate fake data... generated.´
+`feed it to cat (1)... input came out unchanged.´
+`delete spam: done, using best herbal mail enhancements.´
+`´

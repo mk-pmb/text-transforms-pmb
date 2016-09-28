@@ -1,0 +1,6 @@
+# -*- coding: utf-8, tab-width: 4 -*-
+
+\r = «
+nl = ¶\n
+\s ·
+\t	»\1
