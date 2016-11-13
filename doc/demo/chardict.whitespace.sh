@@ -10,6 +10,7 @@ function chardict_add_filename_sh () {
     cr='«'
     sp='·'
     tab='»\1'
+    bel='¡'
     )
   local DUMMY_DATA=$'EHLO\r\n250 tabs\ttab\r' # final \n is added by "<<<"
 
