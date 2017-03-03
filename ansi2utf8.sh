@@ -3,7 +3,7 @@
 #$bin
 
 function dos2utf8 () {
-  iconv --from-code=CP850 --to-code=UTF-8 "$@"
+  iconv --from-code=Windows-1252 --to-code=UTF-8 "$@"
   return $?
 }
 
