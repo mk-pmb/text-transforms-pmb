@@ -11,12 +11,15 @@ function chardict_add_filename_sh () {
     sp='·'
     tab='»\1'
     bel='¡'
+    ff='›¦¦›\n'
     )
-  local DUMMY_DATA=$'EHLO\r\n250 tabs\ttab\r' # final \n is added by "<<<"
+  local DUMMY_DATA=$'EHLO\r\n250 tabs\ttab\rform\ffeed'
 
   chapter 'raw:'
+  # final \n is added by "echo"
   echo "$DUMMY_DATA"
   chapter 'cli dict:'
+  # final \n is added by "<<<"
   <<<"$DUMMY_DATA" chardict "${VOCS_FROM_FILE[@]}"
   chapter 'file dict:'
   <<<"$DUMMY_DATA" chardict --vocfile "$VOC_FN"
