@@ -1,0 +1,20 @@
+{ "name": "text-transforms-pmb",
+  "version": "0.1.1",
+  "description": "Various text transformers",
+  "keywords": [],
+
+  "author": "M.K. (https://github.com/mk-pmb)",
+  "homepage": "https://github.com/mk-pmb/text-transforms-pmb/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mk-pmb/text-transforms-pmb.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mk-pmb/text-transforms-pmb/issues"
+  },
+  "contributors": [],
+
+  "private": false, "license": "MIT",
+
+  "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
+}
