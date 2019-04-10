@@ -131,6 +131,10 @@ sub zerofill_even () {
       return $keep . $tx;
     };
   }],
+
+  ['rev-domain', [], sub () {
+    return join '', reverse split m~([:/\.]+)~, $_[0];
+  }],
 );
 
 
