@@ -32,13 +32,11 @@ function gen_binlinks_file () {
 
   invoke_cases >>"$DEST_FN"
 
-  grep -HPe '^\#\$bin' *.{pl,py,sh} 2>/dev/null | sed -nrf <(<<<'
+  grep -HPe '^\#\$bin' *.{pl,py,sh,sed} 2>/dev/null | sed -nrf <(<<<'
     s~^(æ)(\.[a-z]+):#\$bin$~\1 <- \1\2~p
     ' sed -re '
     s~æ~[a-z0-9_-]+~g
-    ') >>"$DEST_FN"
-
-  return 0
+    ') | LANG=C sort -V >>"$DEST_FN"
 }
 
 
