@@ -5,7 +5,7 @@ SELFNAME="$(basename "$SELFFILE" .sh)"; INVOKED_AS="$(basename "$0" .sh)"
 
 
 function gen_binlinks_file () {
-  cd "$SELFPATH" || return $?
+  cd -- "$SELFPATH" || return $?
   local RUNMODE="${1:-gen}"; shift
   case "$RUNMODE" in
     gen ) ;;
@@ -33,7 +33,7 @@ function gen_binlinks_file () {
   invoke_cases >>"$DEST_FN"
 
   grep -HPe '^\#\$bin' *.{pl,py,sh,sed} 2>/dev/null | sed -nrf <(<<<'
-    s~^(æ)(\.[a-z]+):#\$bin$~\1 <- \1\2~p
+    s~^(æ)(\.[a-z]+):#\$bin$~\1 <- \2~p
     ' sed -re '
     s~æ~[a-z0-9_-]+~g
     ') | LANG=C sort -V >>"$DEST_FN"
