@@ -3,14 +3,15 @@
 
 
 function pipe_helper () {
-  local SELFPATH="$(readlink -m "$BASH_SOURCE"/..)"
-  local INVOKED_AS="$(basename "$0" .sh)"
+  local SELFPATH="$(readlink -m -- "$BASH_SOURCE"/..)"
+  local INVOKED_AS="$(basename -- "$0" .sh)"
   local FLT_CMD=()
   local IN_CMD=()
   case "$INVOKED_AS" in
-    pipe-nonl )   FLT_CMD=( chardict nl= );;
-    pipe-noeol )  FLT_CMD=( chardict nl= cr= );;
     pipe-nl2sp )  FLT_CMD=( chardict nl=' ' );;
+    pipe-noeol )  FLT_CMD=( chardict nl= cr= );;
+    pipe-nonl )   FLT_CMD=( chardict nl= );;
+    pipe-rot13 )  FLT_CMD=( tr a-zA-Z n-za-mN-ZA-M );;
     show-wsp )    FLT_CMD=( chardict --vocfile
                     "$SELFPATH/docs/demo/chardict.whitespace.txt" );;
     * ) echo "E: $0: unsupported invocation" >&2; return 1;;
