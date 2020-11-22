@@ -111,7 +111,7 @@ sub zerofill_even () {
   ['str2id-dash',   sub () { &fac_str2id('-'); }],
   ['str2id-camel',  sub () { &fac_str2id("\\u"); }],
 
-  ['skip-parenth', ['pairs'], sub () {
+  ['skip-text-in-parens', ['pairs'], sub () {
     my ($pairs) = @_;
     $pairs = &arr2hashref(split '', $pairs);
     my $open_paren_rgx = quotemeta join '', keys %{$pairs};
