@@ -4,8 +4,9 @@
 
 
 function hexdiff () {
-  local -A CFG
-  CFG[diff-prog]=diff
+  local -A CFG=(
+    [diff-prog]=diff
+    )
   </dev/null colordiff &>/dev/null && CFG[diff-prog]=colordiff
   CFG[width]=120
   local DIFF_OPTS=(
@@ -33,8 +34,8 @@ function hexdiff () {
     [ -n "${CFG[oldfn]}" ] || continue
     echo "D: ${CFG[oldfn]} <-> ${CFG[newfn]}" >&2
     "${CFG[diff-prog]}" "${DIFF_OPTS[@]}" \
-      --label "${CFG[oldfn]}" <(hexdiff_dump "${CFG[oldfn]}") \
-      --label "${CFG[newfn]}" <(hexdiff_dump "${CFG[newfn]}")
+      --label="${CFG[oldfn]}" <(hexdiff_dump "${CFG[oldfn]}") \
+      --label="${CFG[newfn]}" <(hexdiff_dump "${CFG[newfn]}")
   done
 
   if [ -z "${CFG[oldfn]}" ]; then
@@ -44,8 +45,6 @@ function hexdiff () {
     fi
     hexdiff_dump "${CFG[newfn]}" || return $?
   fi
-
-  return 0
 }
 
 
@@ -54,14 +53,14 @@ function hexdiff_dump () {
     --hex-backslash-nonascii
     --count-repeats-bslast 1 4 5
     )
-  <"$1" text-transforms-pmb "${TRANSFORMS[@]}" | sed -re '
+  <"$1" text-transforms-pmb "${TRANSFORMS[@]}" | sed -rf <(echo '
     s~\\x0A~¶\n~g
     s~\\x20~ ~g
     : wrap
       s~(^|\n)([^\n]{40,50}[^\\])([^\n]{5,})~\1\2\n\3~
     t wrap
     ${/\n$/!s~$~\n~}
-    '
+    ')
 }
 
 
