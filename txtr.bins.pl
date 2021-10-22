@@ -4,6 +4,11 @@ use strict;
 use warnings;
 
 
+my $rgx_ranges = {
+  'non_ascii_bytes' => '\x00-\x08\x0B-\x1F\x5C\x7F-\xFF',
+};
+
+
 sub fac_str2id () {
   my $sepchar = shift;
   return sub () {
@@ -50,7 +55,8 @@ sub zerofill_even () {
   }],
 
   ['hex-backslash-nonascii', [], sub () {
-    $_[0] =~ s|([\x00- \x5C\x7F-\xFF])|sprintf '\\x%02X', (ord $1)|siegr;
+    $_[0] =~ s|([$rgx_ranges->{'non_ascii_bytes'}])|
+      sprintf '\\x%02X', (ord $1)|siegr;
   }],
 
   ['hex-byte-decode', sub () {
