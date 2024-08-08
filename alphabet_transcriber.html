@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html><head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Alphabet Transcriber</title>
+  <meta name="viewport" content="width=device-width">
+  <style type="text/css">
+    textarea { resize: both; overflow: scroll; overflow-x: auto; }
+  </style>
+</head><body>
+
+<form action="nope://" method="get">
+<p>Load pre-defined alphabet? &rarr;
+
+  <input type="button" value="old greek" title="
+    # ἑλληνικὸς
+    # ἀλφάβητος
+    # ευχαριστώ
+
+    &#x0304; = &oline;&#x0016;
+    &#x0300; = &grave;
+    &#x0301; = &acute;
+    &#x0313; = &#x2019;&nbsp; # Smooth breathing (no preceding &quot;h&quot;)
+    &#x0314; = &#x2018;&nbsp; # Rough breathing (with preceding &quot;h&quot;)
+    &#x0384; = '
+    Α = α = a
+    Β = β = ϐ = b
+    Γ = γ = g
+    Δ = δ = d
+    Ε = ε = ϵ = e
+    Ζ = ζ = z
+    Η = η = ē
+    Θ = θ = ϑ = th
+    Ι = ι = i
+    Κ = κ = ϰ = k
+    Λ = λ = l
+    Μ = μ = m
+    Ν = ν = n
+    Ξ = ξ = x
+    Ο = ο = o
+    Π = π = ϖ = p
+    Ρ = ρ = ϱ = r(h)
+    Σ = σ = ς = Ϲ = s
+    Τ = τ = t
+    αυ = au
+    ευ = eu
+    ου = ou
+    Υ = υ = ϒ = y
+    Φ = φ = ϕ = ph
+    Χ = χ = ch
+    Ψ = ψ = ps
+    Ω = ω = Ѡ = ѡ⁠ = ō
+    ">
+
+</p>
+
+<table><tr align="center" valign="top">
+  <td><textarea name="i" cols="60" rows="32" wrap="off"></textarea></td>
+  <td><textarea name="t" cols="20" rows="30" wrap="off"></textarea><br
+    ><input type="submit" value="&nbsp; &mdash;&gt; &nbsp; &mdash;&gt; &nbsp;"></td>
+  <td><textarea name="o" cols="60" rows="32" wrap="off"></textarea></td>
+</tr></table>
+
+</form>
+
+<script type="text/javascript">
+/*jslint indent: 2, maxlen: 80, continue: false, unparam: false, browser: true */
+(function () {
+  'use strict';
+  var form = document.forms[0], fel = form.elements;
+
+  function replaceAll(s, r, w) { return s.split(r).join(w); }
+
+  form.onsubmit = function trans() {
+    var i = fel.i.value, t = fel.t.value, w;
+
+    i = i.replace(/\f|\v/g, ' ');
+    i = i.normalize('NFD');
+
+    t = t.replace(/\f|\v/g, ' ');
+    t = t.normalize('NFD');
+
+    t.split(/\s*\n/).forEach(function each(ln) {
+      ln = ln.split(/(^|\s+)#\s/)[0];
+      ln = ln.split(/\s+=\s+/);
+      if (ln.length < 2) { return; }
+      w = ln.pop();
+      ln.forEach(function item(r) {
+        try {
+          if (r.startsWith('\\u')) { r = JSON.parse('"' + r + '"'); }
+          i = replaceAll(i, r, w);
+        } catch (ignore) {
+        }
+      });
+    });
+
+    i = i.normalize('NFC');
+    i = replaceAll(i, '\u0016', '\u00A0');
+
+    fel.o.value = i;
+    return false;
+  };
+
+  form.onclick = function maybePreDef(ev) {
+    var t = ev.target, lcTag = (t.tagName || '').toLowerCase();
+    if ((lcTag === 'input') && (t.type === 'button') && t.title) {
+      fel.t.value = t.title;
+    }
+  };
+
+  Array.from(fel).forEach(function upgrade(el) {
+    if (el.title) { el.title = el.title.replace(/^\s+|(\n) +|\s+$/g, '$1'); }
+  });
+}());
+</script>
+
+</body></html>
