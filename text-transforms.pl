@@ -41,7 +41,7 @@ sub tr_main () {
 
   my $arg_iter = (@{$args} > 0
     ? sub () { return shift @{$args}; }
-    : sub () { return scalar <STDIN>; });
+    : sub () { my $ln = <STDIN>; chomp $ln if $ln; return $ln; });
 
   my ($buf, $transform_subref);
   while (defined($buf = &$arg_iter())) {
