@@ -106,7 +106,7 @@ sub tr_parse_cli() {
   if (($invocation ne '') and (@{$selected_transforms} == 1)) {
     my $default_opts = $known_cli_defaults->{$invocation};
     my $dflt_opts_type = ref $default_opts;
-    my @extra_args = ();
+    my @extra_opts = ();
     if (defined $default_opts) {
       if ($dflt_opts_type eq '') {
         if (defined $known_cli_defaults->{$default_opts}) {
@@ -115,17 +115,17 @@ sub tr_parse_cli() {
         }
       }
       if ($dflt_opts_type eq 'ARRAY') {
-        push @extra_args, @{$default_opts};
+        push @extra_opts, @{$default_opts};
       } elsif ($dflt_opts_type eq 'CODE') {
-        push @extra_args, &$default_opts($args_ref, $selected_transforms);
+        push @extra_opts, &$default_opts($args_ref, $selected_transforms);
       } else {
         die "E: unsupported type ($dflt_opts_type) of default CLI options." .
           " (invoked as '$invocation', opts: '$default_opts')";
       }
       # warn "default opts: ($dflt_opts_type) $default_opts";
     }
-    if (@extra_args > 0) {
-      unshift @{$args_ref}, @extra_args;
+    if (@extra_opts > 0) {
+      unshift @{$args_ref}, @extra_opts, '--';
       &$parse_args();
     }
   }
