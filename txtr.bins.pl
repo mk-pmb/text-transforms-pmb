@@ -44,7 +44,7 @@ sub zerofill_even () {
     my ($arg) = @_;
     if ($arg eq '') { return "''"; }
     if ("$arg" =~ m|[^A-Za-z0-9:,@/=_\.\-]|s) {
-      $arg =~ s|'|'\\''|sg;
+      $arg =~ s|'+|'"$&"'|sg;
       return "'$arg'";
     }
     return $arg;
