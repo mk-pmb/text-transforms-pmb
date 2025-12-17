@@ -8,6 +8,8 @@ my $rgx_ranges = {
   'non_ascii_bytes' => '\x00-\x08\x0B-\x1F\x5C\x7F-\xFF',
 };
 
+$rgx_ranges->{'non_ascii_bytes_and_c_escapes'} = ('\0\a\b\e\f\n\r\t\v'
+  . $rgx_ranges->{'non_ascii_bytes'});
 
 sub fac_str2id () {
   my $sepchar = shift;
@@ -56,6 +58,11 @@ sub zerofill_even () {
 
   ['hex-backslash-nonascii', [], sub () {
     $_[0] =~ s|([$rgx_ranges->{'non_ascii_bytes'}])|
+      sprintf '\\x%02X', (ord $1)|siegr;
+  }],
+
+  ['hex-backslash-nonascii-and-c', [], sub () {
+    $_[0] =~ s|([$rgx_ranges->{'non_ascii_bytes_and_c_escapes'}])|
       sprintf '\\x%02X', (ord $1)|siegr;
   }],
 
