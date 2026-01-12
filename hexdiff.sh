@@ -32,7 +32,7 @@ function hexdiff () {
       esac
     fi
     [ -n "${CFG[oldfn]}" ] || continue
-    echo "D: ${CFG[oldfn]} <-> ${CFG[newfn]}" >&2
+    # echo "D: ${CFG[oldfn]} <-> ${CFG[newfn]}" >&2
     "${CFG[diff-prog]}" "${DIFF_OPTS[@]}" \
       --label="${CFG[oldfn]}" <(hexdiff_dump "${CFG[oldfn]}") \
       --label="${CFG[newfn]}" <(hexdiff_dump "${CFG[newfn]}")
@@ -49,11 +49,16 @@ function hexdiff () {
 
 
 function hexdiff_dump () {
+  hd -v -- "$1"
+}
+
+
+function hexdiff_dump__orig_old_171217 () {
   local TRANSFORMS=(
     --hex-backslash-nonascii
     --count-repeats-bslast 1 4 5
     )
-  <"$1" text-transforms-pmb "${TRANSFORMS[@]}" | sed -rf <(echo '
+  <"$1" text-transforms-pmb "${TRANSFORMS[@]}" | LANG=C sed -rf <(echo '
     s~\\x0A~¶\n~g
     s~\\x20~ ~g
     : wrap
